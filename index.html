@@ -17,6 +17,8 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Supabase JS Client -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Config hasil generate dari environment variable, lihat generate-config.sh -->
+<script src="config.js"></script>
 <script>
     tailwind.config = {
       theme: {
@@ -79,7 +81,7 @@
 <div class="fixed inset-0 z-50 max-w-md mx-auto flex flex-col justify-between items-center text-center p-6 bg-navy-950 transition-all duration-1000 ease-in-out" id="welcome-modal">
 <!-- Background Cover Image with Gradient -->
 <div class="absolute inset-0 z-0">
-<img alt="Rendra Mukti and Gita Rahayu Wedding" class="w-full h-full object-cover object-top opacity-60 scale-105 transform duration-1000" src="assets/cover.jpg"/>
+<img alt="Rendra Mukti and Gita Rahayu Wedding" class="w-full h-full object-cover object-top opacity-60 scale-105 transform duration-1000" src="assets/cover.jpg" fetchpriority="high" decoding="async"/>
 <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/70 to-navy-950/80"></div>
 </div>
 <!-- Top Text Ornament -->
@@ -170,7 +172,7 @@
 </div>
 <!-- Couple Main Hero Photo in Elegant Frame -->
 <div class="relative z-10 mx-auto w-64 h-84 rounded-t-[140px] rounded-b-3xl overflow-hidden p-1.5 bg-gradient-to-b from-blue-300/50 via-white/20 to-transparent shadow-2xl">
-<img alt="Rendra Mukti &amp; Gita Rahayu" class="w-full h-full object-cover object-top rounded-t-[136px] rounded-b-2xl" src="assets/hero-couple.jpg"/>
+<img alt="Rendra Mukti &amp; Gita Rahayu" class="w-full h-full object-cover object-top rounded-t-[136px] rounded-b-2xl" src="assets/hero-couple.jpg" loading="lazy" decoding="async"/>
 </div>
 <!-- Typography Heading -->
 <div class="relative z-10 mt-6 space-y-1">
@@ -240,7 +242,7 @@
 <!-- Groom Card -->
 <div class="flex flex-col items-center text-center bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
 <div class="w-48 h-56 rounded-t-full rounded-b-2xl overflow-hidden p-1 bg-gradient-to-b from-navy-500 to-navy-100 shadow-md mb-4">
-<img alt="Rendra Mukti" class="w-full h-full object-cover rounded-t-full rounded-b-xl" src="assets/rendra.jpg"/>
+<img alt="Rendra Mukti" class="w-full h-full object-cover rounded-t-full rounded-b-xl" src="assets/rendra.jpg" loading="lazy" decoding="async"/>
 </div>
 <h3 class="font-serif-luxury text-2xl font-bold text-navy-900">Rendra Mukti</h3>
 <p class="text-xs text-navy-600 font-medium mb-2">Mempelai Pria</p>
@@ -258,7 +260,7 @@
 <!-- Bride Card -->
 <div class="flex flex-col items-center text-center bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
 <div class="w-48 h-56 rounded-t-full rounded-b-2xl overflow-hidden p-1 bg-gradient-to-b from-navy-500 to-navy-100 shadow-md mb-4">
-<img alt="Gita Rahayu" class="w-full h-full object-cover rounded-t-full rounded-b-xl" src="assets/gita.jpg"/>
+<img alt="Gita Rahayu" class="w-full h-full object-cover rounded-t-full rounded-b-xl" src="assets/gita.jpg" loading="lazy" decoding="async"/>
 </div>
 <h3 class="font-serif-luxury text-2xl font-bold text-navy-900">Gita Rahayu</h3>
 <p class="text-xs text-navy-600 font-medium mb-2">Mempelai Wanita</p>
@@ -389,13 +391,13 @@
 </div>
 <div class="grid grid-cols-2 gap-3">
 <div class="col-span-2 overflow-hidden rounded-2xl shadow-sm border border-slate-200">
-<img alt="Foto Prewedding Rendra &amp; Gita" class="w-full h-64 object-cover object-center hover:scale-105 transition-transform duration-500" src="assets/gallery-1.jpg"/>
+<img alt="Foto Prewedding Rendra &amp; Gita" class="w-full h-64 object-cover object-center hover:scale-105 transition-transform duration-500" src="assets/gallery-1.jpg" loading="lazy" decoding="async"/>
 </div>
 <div class="overflow-hidden rounded-2xl shadow-sm border border-slate-200">
-<img alt="Foto Mempelai Pria Rendra Mukti" class="w-full h-44 object-cover object-top hover:scale-105 transition-transform duration-500" src="assets/gallery-2.jpg"/>
+<img alt="Foto Mempelai Pria Rendra Mukti" class="w-full h-44 object-cover object-top hover:scale-105 transition-transform duration-500" src="assets/gallery-2.jpg" loading="lazy" decoding="async"/>
 </div>
 <div class="overflow-hidden rounded-2xl shadow-sm border border-slate-200">
-<img alt="Foto Mempelai Wanita Gita Rahayu" class="w-full h-44 object-cover object-top hover:scale-105 transition-transform duration-500" src="assets/gallery-3.jpg"/>
+<img alt="Foto Mempelai Wanita Gita Rahayu" class="w-full h-44 object-cover object-top hover:scale-105 transition-transform duration-500" src="assets/gallery-3.jpg" loading="lazy" decoding="async"/>
 </div>
 </div>
 </section>
@@ -702,10 +704,15 @@
 </script>
 <!-- Script for RSVP State Management via Supabase -->
 <script data-purpose="rsvp-guestbook">
-  // ====== KONFIGURASI SUPABASE — ISI DENGAN PUNYA LU ======
-  // Ambil dari Project Settings > API di dashboard Supabase
-  const SUPABASE_URL = "https://xxxxxxxxxxxx.supabase.co";
-  const SUPABASE_ANON_KEY = "isi-anon-public-key-di-sini";
+  // ====== KONFIGURASI SUPABASE ======
+  // Nilainya diambil dari config.js (di-generate dari environment variable
+  // SUPABASE_URL & SUPABASE_ANON_KEY lewat generate-config.sh — lihat CARA_PAKAI.md)
+  const SUPABASE_URL = window.APP_CONFIG?.SUPABASE_URL;
+  const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY;
+
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.error("Supabase config kosong! Pastikan config.js udah di-generate dari .env (lihat CARA_PAKAI.md).");
+  }
   // =========================================================
 
   // Buat tabel ini dulu di Supabase (SQL Editor):
